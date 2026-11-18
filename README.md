@@ -11,7 +11,7 @@ A BTC trading bot for the [make.fun btc-race-24h-20261118-1444 competition](http
 One simple trigger, full-size entries, patient exits:
 
 - **Entry:** the close falls at least 65 bps below the median of the last 71 closes. One position at a time, full cash, long only.
-- **Exit (whole position):** take-profit at 70 bps over cost, stop at 120 bps under cost, or a forced exit after 167 bars held.
+- **Exit (whole position):** take-profit at 120 bps over cost, stop at 120 bps under cost, or a forced exit after 167 bars held.
 - **Cooldown:** 173 bars after an exit before a new entry.
 - **Tail rule:** no new entries in the last 167 bars of the 1440-bar window, so a position never opens too late to complete its hold logic before the end-of-window flatten.
 

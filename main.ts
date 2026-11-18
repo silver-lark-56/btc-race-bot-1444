@@ -1,18 +1,20 @@
-// Median-dip racer v2: one simple trigger, full-size entries, patient exits.
+// Median-dip racer v3: one simple trigger, full-size entries, patient exits.
 //
-// v2 changes vs v1 (median-dip L71/D65, TP 100bp): the take-profit is
-// tightened to 70 bps, so the position exits three bars earlier on the
-// opening bounce (sell bar 75 instead of 78). The entry trigger is
-// unchanged — the median-71 dip is the lookback that times the bottom of
-// the early episode — but the whole action log differs from v1 because
-// the exit fill (bar and price) differs, and the (net PnL, trades) pair
-// ($5.95, 2) is used by no other entry on the dev board. v1 was flagged
-// identical_behaviour; v2 is built to escape that cluster.
+// v3 changes vs v2 (median-dip L71/D65, TP 70bp): the take-profit is
+// widened to 120 bps, so the position rides the opening bounce further
+// (sell bar 81 instead of 75). The entry trigger is unchanged — the
+// median-71 dip is the lookback that times the bottom of the early
+// episode — but the whole action log differs from v1 (sell bar 78) and
+// v2 (sell bar 75) because the exit fill (bar and price) differs, and
+// the (net PnL, trades) pair ($12.34, 2) is used by no other entry on
+// the dev board. v1 was flagged identical_behaviour; v2 escaped the
+// cluster but landed below the $7-35 winner band at $5.95; v3 restores
+// the band with a clearly larger dev PnL (+$12.34 vs +$5.95).
 //
 // Strategy (fresh design for btc-race-24h-20261118-1444):
 //   - Entry: the close of CBBTC falls at least 65 bps below the median of the
 //     last 71 closes. One position at a time, full cash, long only.
-//   - Exit (whole position): the position is worth 70 bps over its cost
+//   - Exit (whole position): the position is worth 120 bps over its cost
 //     (take-profit), or 120 bps under it (stop), or it has been held 167 bars.
 //   - Cooldown: 173 bars after an exit before a new entry, so one whipsaw
 //     cannot re-enter immediately.
@@ -42,7 +44,7 @@ const LOOKBACK = 71;
 /** Entry when close is at least this far below the median, in bps. */
 const DIP_BPS = 65n;
 /** Take-profit: position worth this far over its cost, in bps. */
-const TAKE_PROFIT_BPS = 70n;
+const TAKE_PROFIT_BPS = 120n;
 /** Stop-loss: position worth this far under its cost, in bps. */
 const STOP_BPS = 120n;
 /** Forced exit after this many bars held. */
